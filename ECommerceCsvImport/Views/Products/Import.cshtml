@@ -1,0 +1,77 @@
+﻿@model ECommerceCsvImport.Models.ImportViewModel
+@{
+    ViewData["Title"] = "Импорт товаров";
+}
+
+<style>
+    body { background-color: #1a1a1d; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; }
+    .cyber-container { max-width: 800px; margin: 40px auto; padding: 20px; background: #25252b; border: 1px solid #4a4a55; border-radius: 8px; box-shadow: 0 0 15px rgba(100, 50, 255, 0.2); }
+    h1 { color: #8a2be2; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
+    .form-control { background: #121215; border: 1px solid #4a4a55; color: #fff; padding: 10px; border-radius: 4px; width: 100%; box-sizing: border-box; }
+    .form-control:focus { border-color: #6a5acd; outline: none; box-shadow: 0 0 5px #6a5acd; }
+    .btn-cyber { background: linear-gradient(90deg, #4b0082, #6a5acd); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; text-transform: uppercase; width: 100%; margin-top: 15px; }
+    .btn-cyber:hover { background: linear-gradient(90deg, #6a5acd, #8a2be2); }
+    .btn-link { display: block; text-align: center; margin-top: 20px; color: #6a5acd; text-decoration: none; }
+    .btn-link:hover { text-decoration: underline; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #1e1e24; }
+    th, td { border: 1px solid #4a4a55; padding: 10px; text-align: left; }
+    th { background: #2a2a35; color: #8a2be2; }
+    .error-row { color: #ff6b6b; }
+    .success-text { color: #00fa9a; }
+</style>
+
+<div class="cyber-container">
+    <h1>Импорт товаров из CSV</h1>
+
+    <form method="post" asp-controller="Products" asp-action="Import">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="filePath" style="color: #aaa;">Путь к CSV-файлу</label>
+            <input type="text" id="filePath" name="filePath" value="@Model.FilePath" placeholder="/csv/sample_products.csv" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn-cyber">Импортировать товары</button>
+    </form>
+
+    @if (Model.Result != null)
+    {
+        <h2 style="color: #fff; margin-top: 30px;">Результат импорта</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Показатель</th>
+                    <th>Значение</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Всего строк</td><td>@Model.Result.TotalRows</td></tr>
+                <tr><td>Успешно импортировано</td><td class="success-text">@Model.Result.ImportedCount</td></tr>
+                <tr><td>Ошибки</td><td style="color: #ff6b6b;">@Model.Result.ErrorCount</td></tr>
+            </tbody>
+        </table>
+
+        @if (Model.Result.Errors.Count > 0)
+        {
+            <h3 style="color: #ff6b6b;">Список ошибок</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Строка</th>
+                        <th>Описание ошибки</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var error in Model.Result.Errors)
+                    {
+                        <tr class="error-row">
+                            <td>@error.RowNumber</td>
+                            <td>@error.Message</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <a href="/Products/Index" class="btn-link">Перейти к списку товаров →</a>
+    }
+</div>

@@ -1,0 +1,147 @@
+﻿@model ECommerceCsvImport.Models.ProductsIndexViewModel
+@{
+    ViewData["Title"] = "Список товаров";
+}
+
+<style>
+    body {
+        background-color: #1a1a1d;
+        color: #e0e0e0;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .cyber-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #25252b;
+        border: 1px solid #4a4a55;
+        border-radius: 8px;
+    }
+
+    h1 {
+        color: #8a2be2;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .stats {
+        text-align: center;
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+        .stats span {
+            color: #00fa9a;
+            font-weight: bold;
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #1e1e24;
+        font-size: 0.9em;
+    }
+
+    th, td {
+        border: 1px solid #4a4a55;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background: #2a2a35;
+        color: #8a2be2;
+        position: sticky;
+        top: 0;
+    }
+
+    tr:nth-child(even) {
+        background: #22222a;
+    }
+
+    .btn-cyber {
+        display: block;
+        width: 200px;
+        margin: 30px auto;
+        background: linear-gradient(90deg, #4b0082, #6a5acd);
+        color: white;
+        text-align: center;
+        padding: 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .btn-cyber:hover {
+            background: linear-gradient(90deg, #6a5acd, #8a2be2);
+            color: white;
+        }
+
+    .alert {
+        background: #3a3a45;
+        color: #aaa;
+        padding: 15px;
+        text-align: center;
+        border-radius: 4px;
+    }
+</style>
+
+<div class="cyber-container">
+    <h1>Товары</h1>
+
+    <div class="stats">
+        <p>Всего товаров: <span>@Model.TotalCount</span></p>
+        <p>Общая стоимость: <span>@Model.TotalValue.ToString("N0") RUB</span></p>
+    </div>
+
+    @if (Model.Products.Count == 0)
+    {
+        <div class="alert">
+            Товары еще не импортированы. Перейдите на страницу импорта.
+        </div>
+    }
+    else
+    {
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Артикул</th>
+                        <th>Название</th>
+                        <th>Описание</th>
+                        <th>Цена</th>
+                        <th>Валюта</th>
+                        <th>Категория</th>
+                        <th>Остаток</th>
+                        <th>Активен</th>
+                        <th>Бренд</th>
+                        <th>Гарантия</th>
+                        <th>Модель</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        <tr>
+                            <td>@product.Sku</td>
+                            <td>@product.Name</td>
+                            <td>@product.Description</td>
+                            <td>@product.Price.ToString("N0")</td>
+                            <td>@product.Currency</td>
+                            <td>@product.CategoryName</td>
+                            <td>@product.StockQuantity</td>
+                            <td>@(product.IsActive ? "Да" : "Нет")</td>
+                            <td>@product.Brand</td>
+                            <td>@product.WarrantyMonths</td>
+                            <td>@product.ModelNumber</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <a href="/Products/Import" class="btn-cyber">Импортировать товары</a>
+</div>

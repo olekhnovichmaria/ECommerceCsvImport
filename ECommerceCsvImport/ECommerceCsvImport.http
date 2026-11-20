@@ -1,0 +1,6 @@
+@ECommerceCsvImport_HostAddress = http://localhost:5259
+
+GET {{ECommerceCsvImport_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
