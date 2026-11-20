@@ -9,7 +9,6 @@
 ---
 
 ## Технологии
-
 - C#, ASP.NET Core MVC (.NET 8)
 - xUnit для unit-тестов
 - Собственный CSS в тёмной теме (фиолетово-синяя палитра)
@@ -17,48 +16,35 @@
 ---
 
 ## Как запустить
-
 1. Открыть `ECommerceCsvImport.sln` в Visual Studio.
 2. Запустить проект `ECommerceCsvImport` (F5).
 3. В адресной строке перейти на `/Products/Import`.
-4. В поле «Путь к CSV-файлу» ввести `/csv/sample_products.csv`.
-5. Нажать **«Импортировать товары»**.
+4. Ввести путь: `/csv/sample_products.csv` и нажать «Импортировать товары».
 
 **Ожидаемый результат:** всего строк 11, импортировано 11, ошибок 0.
 
-Или из консоли:
-
-```
-dotnet run --project ECommerceCsvImport
-dotnet test
-```
+---
 
 ## Формат CSV
-
-```
-sku,name,description,price,currency,category_name,stock,image_url,is_active,brand,warranty_months,model_number
-1001,Ноутбук Lenovo IdeaPad 3,Бюджетный ноутбук для работы и учебы,45990,RUB,Компьютеры,5,/images/laptop.jpg,true,Lenovo,24,IdeaPad 3-15
-```
-
 | Поле | Проверка |
-|------|----------|
-| sku | не пустое, без повторов |
-| name | не пустое |
-| description | может быть пустым |
-| price | число больше 0 |
-| currency | если пусто — RUB |
-| category_name | если пусто — «Без категории» |
-| stock | целое число, не меньше 0 |
-| image_url | может быть пустым |
-| is_active | true / false / 1 / 0 |
-| brand | не пустое |
-| warranty_months | целое число от 0 до 120 |
-| model_number | не пустое |
+| --- | --- |
+| `sku` | не пустое, без повторов |
+| `name` | не пустое |
+| `price` | число больше 0 |
+| `currency` | если пусто — `RUB` |
+| `category_name` | если пусто — «Без категории» |
+| `stock` | целое число, не меньше 0 |
+| `is_active` | `true` / `false` / `1` / `0` |
+| `brand` | не пустое |
+| `warranty_months` | целое число от 0 до 120 |
+| `model_number` | не пустое |
 
-Если артикул уже есть (в файле или в памяти), строка пропускается и выводится ошибка.
-Файл может быть в UTF-8 или Windows-1251, разделитель — запятая или точка с запятой.
+---
 
-## Структура
+## Структура проекта
+- `ECommerceCsvImport/` — основной MVC проект (Controllers, Models, Services, Views, wwwroot)
+- `ECommerceCsvImport.Tests/` — unit-тесты (31 тест) и папка `testdata`
+- `ECommerceCsvImport.sln` — файл решения в корне репозитория
 
 ```
 ECommerceCsvImport/
@@ -81,6 +67,8 @@ ECommerceCsvImport.Tests/
 ├── RepositoryTests.cs                     — тесты репозитория
 └── testdata/                              — 7 CSV-файлов для тестовых сценариев
 ```
+
+---
 
 ## Что сделано дополнительно
 
