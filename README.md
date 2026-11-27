@@ -89,4 +89,4 @@ ECommerceCsvImport.Tests/
 | 4 | duplicate_sku.csv | 1 импортирован, 1 дубликат | ок |
 | 5 | bad_active.csv | ошибка поля is_active | ок |
 | 6 | missing_brand.csv | ошибка «brand обязательно» | ок |
-| 7 | warranty_out_of_range.csv | ошибка гарантии (>120) | ок |
+| 7 | warranty_out_of_range.csv | ошибка гарантии (>60) | ок |
