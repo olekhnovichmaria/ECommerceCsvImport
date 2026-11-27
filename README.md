@@ -36,7 +36,7 @@
 | `stock` | целое число, не меньше 0 |
 | `is_active` | `true` / `false` / `1` / `0` |
 | `brand` | не пустое |
-| `warranty_months` | целое число от 0 до 120 |
+| `warranty_months` | целое число от 0 до 60 |
 | `model_number` | не пустое |
 
 ---
