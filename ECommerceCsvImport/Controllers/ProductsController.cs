@@ -44,8 +44,10 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public ActionResult Import(string filePath)
     {
+        // 1. Преобразуем ввод пользователя в абсолютный путь
         var resolvedPath = ResolveFilePath(filePath);
 
+        // 2. Если путь пустой — показываем ошибку
         if (string.IsNullOrWhiteSpace(resolvedPath))
         {
             return View("Import", new ImportViewModel
@@ -58,7 +60,8 @@ public class ProductsController : Controller
             });
         }
 
-        var result = _importService.ImportFromCsv(@"C:\Users\user\Desktop\Берестов_ПМ.02_ноябрь\ECommerceCsvImport\wwwroot\csv\sample_products.csv");
+        // 3. ВАЖНО: передаём в сервис именно resolvedPath, а не filePath!
+        var result = _importService.ImportFromCsv(resolvedPath);
 
         return View("Import", new ImportViewModel
         {
@@ -67,20 +70,19 @@ public class ProductsController : Controller
         });
     }
 
-    // Вспомогательный метод для преобразования относительных путей в абсолютные
     private string? ResolveFilePath(string input)
     {
         if (string.IsNullOrWhiteSpace(input)) return null;
 
         var trimmed = input.Trim();
 
-        // Если путь абсолютный (например, C:\data\file.csv)
-        if (Path.IsPathRooted(trimmed))
+        if (Path.IsPathRooted(trimmed) && trimmed.Length > 1 && trimmed[1] == ':')
             return trimmed;
 
-        // Если путь относительный (например, /csv/sample_products.csv)
-        if (trimmed.StartsWith('/'))
-            trimmed = trimmed.TrimStart('/');
+        trimmed = trimmed.TrimStart('/', '\\');
+
+        if (string.IsNullOrWhiteSpace(trimmed)) return null;
+
 
         return Path.Combine(_environment.WebRootPath, trimmed);
     }

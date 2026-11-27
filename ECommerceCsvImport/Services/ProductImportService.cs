@@ -27,7 +27,7 @@ public class ProductImportService : IProductImportService
         {
             return new ImportResult
             {
-                Errors = { new ImportError { RowNumber = 0, Message = "Файл не найден" } }
+                Errors = { new ImportError { RowNumber = 0, Message = $"Файл не найден. Проверяемый путь: [{filePath}]" } }
             };
         }
 
@@ -58,6 +58,9 @@ public class ProductImportService : IProductImportService
 
     public ImportResult ImportFromLines(IEnumerable<string> lines)
     {
+        if (lines == null)
+            throw new ArgumentNullException(nameof(lines));
+
         var result = new ImportResult();
         var lineList = lines as string[] ?? lines.ToArray();
 
