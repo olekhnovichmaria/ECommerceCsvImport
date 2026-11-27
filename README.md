@@ -19,7 +19,7 @@
 1. Открыть `ECommerceCsvImport.sln` в Visual Studio.
 2. Запустить проект `ECommerceCsvImport` (F5).
 3. В адресной строке перейти на `/Products/Import`.
-4. Ввести путь: `/csv/sample_products.csv` и нажать «Импортировать товары».
+4. Ввести путь: `csv/sample_products.csv` и нажать «Импортировать товары».
 
 **Ожидаемый результат:** всего строк 11, импортировано 11, ошибок 0.
 
